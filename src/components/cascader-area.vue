@@ -2,7 +2,7 @@
 	
 	<div>
 		
-		<Cascader v-model="checkedArea" :data="areaData" :change-on-select="true" filterable @on-change="dataChange" style="width: 300px;"></Cascader>
+		<Cascader v-model="checkedArea" :data="areaData" :change-on-select="true" filterable @on-change="dataChange" style="width: 100%;"></Cascader>
 		
 	</div>
 	
@@ -44,16 +44,12 @@ export default {
     		this.$emit('input', value);
     		this.$emit('on-change', value, selectedData);
     	},
-    	
+    	    	
     },
     computed: {//计算属性
         	
     },
     watch: {//监测数据变化
-    	
-    	value(newVal){
-    		
-    	}
     	
 	},
     
@@ -61,7 +57,7 @@ export default {
     
     created () {//实例被创建完毕之后执行
     	
-    	this.checkedArea = this.value;
+      	this.checkedArea = this.value;
     	
     	this.$emit('input', this.checkedArea);
     	

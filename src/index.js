@@ -1,4 +1,4 @@
-import cascaderArea from './components/cascader-area.vue' // 导入组件
+import cascaderArea from './components/cascader-area.vue';
 
 const paykeyboard = {
     install (Vue, options) {
@@ -10,4 +10,4 @@ if (typeof window !== 'undefined' && window.Vue) {
     window.Vue.use(paykeyboard);
 }
 
-export default paykeyboard // 导出..
+export default paykeyboard

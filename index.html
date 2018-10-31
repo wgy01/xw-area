@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+
+	<head>
+		<meta charset="utf-8">
+		<title>test</title>
+		<link rel="stylesheet" type="text/css" href="http://unpkg.com/iview/dist/styles/iview.css">
+		<script type="text/javascript" src="http://vuejs.org/js/vue.min.js"></script>
+		<script type="text/javascript" src="http://unpkg.com/iview/dist/iview.min.js"></script>
+	</head>
+
+	<body>
+		<div id="app">
+			{{value}}
+			<cascader-area v-model="value" @on-change="change"></cascader-area>
+		</div>
+		<script src="dist/xw-area.js"></script>
+		<script>
+			new Vue({
+				el: '#app',
+				data: {
+					value: [],
+				},
+				methods: {
+
+					change(value, selectedData) {
+						console.log(value);
+						console.log(selectedData);
+					},
+
+				}
+			})
+		</script>
+	</body>
+
+</html>

@@ -47,10 +47,15 @@ export default {
     	    	
     },
     computed: {//计算属性
-        	
+        
     },
     watch: {//监测数据变化
     	
+    	value(newVal){
+        	this.checkedArea = newVal;
+        	this.$emit('input', newVal);
+        },
+        
 	},
     
     //===================组件钩子===========================

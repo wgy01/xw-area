@@ -2,7 +2,7 @@
 	
 	<div>
 		
-		<Cascader v-model="checkedArea" :data="areaData" :change-on-select="true" filterable @on-change="dataChange" style="width: 100%;"></Cascader>
+		<Cascader v-model="checkedArea" :data="areaData" :load-data="loadData" :change-on-select="true" filterable @on-change="dataChange" style="width: 100%;"></Cascader>
 		
 	</div>
 	
@@ -40,6 +40,36 @@ export default {
     },
     methods: {//方法
     	
+    	loadData(item, callback){
+			
+			let childData = [];
+			
+            let childs = pcaa[item.value];
+            
+            for (const c in childs) {
+            	
+                let childitem = {
+                    value: c,
+                    label: pcaa[item.value][c],
+                    children: []
+                };
+                
+                if(Object.keys(pcaa['86']).indexOf(item.value) > -1){
+                	childitem.loading = false;
+                }
+                
+                childData.push(childitem);
+                
+                item.children = childData;
+                
+            }
+            
+            item.loading = false;
+            
+            callback();
+			
+		},
+    	
     	dataChange(value, selectedData){//数据改变触发
     		this.$emit('input', value);
     		this.$emit('on-change', value, selectedData);
@@ -69,45 +99,22 @@ export default {
 	},
     mounted () {//模板被渲染完毕之后执行
     	
-      	let province = [];//省份
-    		
-		for(let provinceItem in this.pcaa["86"]){//省份
-			
-			let provinceObj = {
-				label: this.pcaa["86"][provinceItem],
-    			value: provinceItem,
-    			children: []
-			}
-			
-			for(let cityItem in this.pcaa[provinceItem]){//城市
-				
-				let cityObj = {
-					label: this.pcaa[provinceItem][cityItem],
-	    			value: cityItem,
-	    			children: []
-				}
-				
-				for(let districtItem in this.pcaa[cityItem]){//地区
-					
-					let districtObj = {
-						label: this.pcaa[cityItem][districtItem],
-		    			value: districtItem,
-		    			children: []
-					}
-					
-					cityObj.children.push(districtObj);
-					
-				}
-				
-				provinceObj.children.push(cityObj);
-				
-			}
-			
-			province.push(provinceObj);
-			
-		}
+      	let areaData = [];
     	
-    	this.areaData = province;
+    	Object.keys(this.pcaa['86']).forEach(item => {
+    		
+    		let provinceObj = {
+    			label: this.pcaa['86'][item],
+    			value: item,
+    			children: [],
+    			loading:false
+    		};
+    		
+    		areaData.push(provinceObj);
+    		
+    	});
+    	
+    	this.areaData = areaData;
     	
 	},
 	

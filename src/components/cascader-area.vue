@@ -40,7 +40,26 @@ export default {
     },
     methods: {//方法
     	
-    	loadData(item, callback){
+    	init(){//初始化
+    		let areaData = [];
+    	
+	    	Object.keys(this.pcaa['86']).forEach(item => {
+	    		
+	    		let provinceObj = {
+	    			label: this.pcaa['86'][item],
+	    			value: item,
+	    			children: [],
+	    			loading:false
+	    		};
+	    		
+	    		areaData.push(provinceObj);
+	    		
+	    	});
+	    	
+	    	this.areaData = areaData;
+    	},
+    	
+    	loadData(item, callback){//动态加载
 			
 			let childData = [];
 			
@@ -71,8 +90,28 @@ export default {
 		},
     	
     	dataChange(value, selectedData){//数据改变触发
-    		this.$emit('input', value);
-    		this.$emit('on-change', value, selectedData);
+      		this.$emit('input', value);
+      		this.$emit('on-change', value, selectedData);
+    	},
+    	
+    	selectedData(arr){//全部获得name/code
+    		let i = 0;
+            let res = [];
+            while (arr[i]) {
+                let name = '';
+                if (i === 0) {
+                    name = pcaa['86'][arr[i]];
+                } else {
+                    name = pcaa[arr[i - 1]][arr[i]];
+                }
+                let item = {
+                    code: arr[i],
+                    name: name
+                };
+                res.push(item);
+                i++;
+            }
+            return res;
     	},
     	    	
     },
@@ -92,30 +131,15 @@ export default {
     
     created () {//实例被创建完毕之后执行
     	
-      	this.checkedArea = this.value;
-    	
-    	this.$emit('input', this.checkedArea);
-    	
 	},
     mounted () {//模板被渲染完毕之后执行
+    	this.init();
     	
-      	let areaData = [];
+      	this.checkedArea = this.value;
     	
-    	Object.keys(this.pcaa['86']).forEach(item => {
-    		
-    		let provinceObj = {
-    			label: this.pcaa['86'][item],
-    			value: item,
-    			children: [],
-    			loading:false
-    		};
-    		
-    		areaData.push(provinceObj);
-    		
-    	});
-    	
-    	this.areaData = areaData;
-    	
+      	this.$emit('input', this.value);
+      	
+      	if(this.value.length > 0) this.$emit('on-load-change', this.value, this.selectedData(this.value));
 	},
 	
 }
